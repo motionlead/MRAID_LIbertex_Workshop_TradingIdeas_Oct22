@@ -1,13 +1,13 @@
 import Track from "./trackings.js";
 import tracking from "./tracking"; // Automatically tracks the seconds
 import { logError } from "./helper";
-import { Video } from "./components/video/Video";
+//import { Video } from "./components/video/Video";
 import { Carousel } from "./components/Carousel/Carousel";
-import { CountDown } from "./components/CountDown/CountDown";
-import { MultipleSpriteSheet } from "./components/MultipleSpriteSheet/MultipleSpriteSheet";
-import { DragSpriteSheet } from "./components/DragSpriteSheet/DragSpriteSheet";
-import { Particles } from "./components/Particles/Particles";
-import { MotionShaper } from "./components/MotionShaper/MotionShaper";
+//import { CountDown } from "./components/CountDown/CountDown";
+//import { MultipleSpriteSheet } from "./components/MultipleSpriteSheet/MultipleSpriteSheet";
+//import { DragSpriteSheet } from "./components/DragSpriteSheet/DragSpriteSheet";
+//import { Particles } from "./components/Particles/Particles";
+//import { MotionShaper } from "./components/MotionShaper/MotionShaper";
 import { getMobileLanguage } from "./helper";
 
 // Get the width and height of the canvas
@@ -91,40 +91,76 @@ const logComponentArgs = (currComponent) => {
 const suffix = getMobileLanguage();
 
 let clickTime = 0;
-let clickable = []; //[bg];
+let clickable = []; //[background];
 
-const bg = new c.Bitmap(images.bg);
-bg.name = "bg";
+//grid//
 
-////////////////////////////////////////////////
-/////////////////// VIDEO //////////////////////
-////////////////////////////////////////////////
+const background = new c.Bitmap(images.background);
 
-// const onEnded = () => logError("video Ended");
-// const onError = () => logError("video Error");
+//** BG IMAGE */
 
-const videoParameters = {
-  src: "https://dsp-creatives.s3.amazonaws.com/mraid_videos/MyGames_LeftToSurvive_Multiplecampaigns_v1_May22.mp4",
-  regX: 0.5,
-  regY: 0.5,
-  // onEnded,
-  // onError,
-  // playbackRate: 5,
-  // splashScreen: "splashScreen",
-};
+const women = new c.Bitmap(images.women);
+women.regX = women.image.width / 2;
+women.regY = women.image.height;
+women.x = width / 2;
+women.y = height * 1.3;
 
-const myVideo = new Video(videoParameters);
-myVideo.x = width / 2;
-myVideo.y = height / 2;
+const man = new c.Bitmap(images["man-" + suffix]);
+man.regX = man.image.width / 2;
+man.regY = man.image.height / 2;
+man.x = width / 2;
+man.y = height / 2;
 
-// CONTROLS :
+const phone = new c.Bitmap(images.phone);
+phone.regX = phone.image.width / 2;
+phone.regY = phone.image.height;
+phone.x = width / 2;
+phone.y = height * 1.17;
 
-myVideo.play();
-// myVideo.stop();
-// logComponentArgs(myVideo);
-// myVideo.gotoAndPlay(5);
-// myVideo.gotoAndStop(5);
-// myVideo.playAndStopAt(5);
+// //** LOGO */
+
+const logo = new c.Bitmap(images.logo);
+logo.regX = logo.image.width / 2;
+logo.regY = 0;
+logo.x = width / 2;
+logo.y = height * 0.08;
+
+// //** CTA+WORDING */
+
+const p1Wording = new c.Bitmap(images["p1Wording-" + suffix]);
+p1Wording.x = width * 0.08;
+p1Wording.y = logo.y + 90;
+
+const p2Wording = new c.Bitmap(images["p2Wording-" + suffix]);
+p2Wording.x = width * 0.05;
+p2Wording.y = height * 0.35;
+
+const p3Wording = new c.Bitmap(images["p3Wording-" + suffix]);
+p3Wording.regX = p3Wording.image.width / 2;
+p3Wording.regY = p3Wording.image.height;
+p3Wording.x = width / 2;
+p3Wording.y = phone.y - phone.image.height - p3Wording.image.height / 2 - 20;
+
+// const cta = new c.Bitmap(images["cta-" + suffix]);
+// cta.regX = cta.image.width / 2;
+// cta.regY = cta.image.height / 2;
+// cta.x = width / 2;
+// cta.y = height * 0.9;
+
+// const ctaSmall = new c.Bitmap(images["ctaSmall-" + suffix]);
+// ctaSmall.regX = ctaSmall.image.width / 2;
+// ctaSmall.regY = ctaSmall.image.height / 2;
+// ctaSmall.x = width * 0.71;
+// ctaSmall.y = phone.y - phone.image.height / 2 - 12;
+
+//** GROUP */
+
+// let p_1 = [women, p1Wording];
+// let p_2 = [man, p2Wording];
+// let p_3 = [
+//   phone,
+//   // p3Wording, ctaSmall
+// ];
 
 ///////////////////////////////////////////////
 ///////////////////  carousel /////////////////
@@ -139,46 +175,48 @@ myVideo.play();
 
 const fadeItems = [];
 
-const wording_fadeItems = [
-  new c.Bitmap(images["wording01"]),
-  new c.Bitmap(images["wording02"]),
-  new c.Bitmap(images["wording03"]),
+const bgImage_fadeItems = [
+  new c.Bitmap(images["women"]),
+  new c.Bitmap(images["man"]),
+  new c.Bitmap(images["phone"]),
 ];
 
-const wordingObjCont = new c.Container();
-wordingObjCont.name = "bg";
-wordingObjCont.alpha = 1;
+const wording_fadeItems = [
+  new c.Bitmap(images["p1Wording"]),
+  new c.Bitmap(images["p2Wording"]),
+  new c.Bitmap(images["p3Wording"]),
+];
 
-for (var i = 0; i < wording_fadeItems.length; i++) {
-  const wording = wording_fadeItems[i];
-  wording.regX = wording.image.width / 2;
-  wording.regY = wording.image.height;
-  wording.y = height * 1.05;
-  wording.x = width * 0.5;
+const ctaSmall_fadeItems = [new c.Bitmap(images["ctaSmall"])];
 
-  wordingObjCont.addChild(wording);
-  fadeItems.push([wording]);
-}
+// const wordingObjCont = new c.Container();
+// wordingObjCont.name = "bg";
+// wordingObjCont.alpha = 1;
+
+// for (var i = 0; i < wording_fadeItems.length; i++) {
+//   const wording = wording_fadeItems[i];
+//   wording.regX = wording.image.width / 2;
+//   wording.regY = wording.image.height;
+//   wording.y = height * 1.05;
+//   wording.x = width * 0.5;
+
+//   wordingObjCont.addChild(wording);
+//   fadeItems.push([wording]);
+// }
 
 const carouselParameters = {
-  images: [
-    "asset_1",
-    "https://dsp-creatives.s3.amazonaws.com/mraid_videos/MyGames_LeftToSurvive_Multiplecampaigns_v1_May22.mp4",
-    "asset_2",
-  ],
+  images: ["women, p1wording", "man, p2wording", "phone,p3wrding"],
   // urls: [
-  //   "https://www.google.com/?q=1",
-  //   "https://www.google.com/?q=2",
-  //   "https://www.google.com/?q=3",
+
   // ],
   // videoWidth: 640,
   // videoHeight: 360,
-  splashScreens: ["", "asset_1", ""],
+  splashScreens: ["", "", ""],
   // debug: true,
   isCyclic: true,
   // startIndex: 1,
   masked: false,
-  scaleUnfocus: 0.5,
+  scaleUnfocus: 1,
   alignFocusV: 50, // vertically align the focused element. From 0 (top) to 100 (bottom)
   alignUnfocus: 50, // vertically align the unfocused elements. From 0 (top) to 100 (bottom)
   alignFocusH: 50, // horizontally align the focused element. From 0 (left) to 100 (right)
@@ -193,7 +231,7 @@ const carouselParameters = {
   fadeObjects: fadeItems,
   // onCenteredFadeObjects,
   // onCenteredObject,
-  // autoPlay: 1.5, // period in seconds
+  autoPlay: 1.5, // period in seconds
   // languageSuffix: 'en', // getMobileLanguage(),
   // isVertical: true,
   tooltip: "hand",
@@ -206,7 +244,7 @@ myCarousel.y = height * 0.65;
 myCarousel.regX = myCarousel.width / 2;
 myCarousel.regY = myCarousel.height / 2;
 
-// carousel controls
+//carousel controls
 
 // setTimeout(function () {
 //   // myCarousel.moveFocus(-1);
@@ -214,243 +252,41 @@ myCarousel.regY = myCarousel.height / 2;
 // }, 2000);
 
 ////////////////////////////////////////////////
-///////////////// countDown ////////////////////
-////////////////////////////////////////////////
-
-const now = new Date();
-const countDownParameters = {
-  debug: false,
-  images: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "separator"],
-  year: now.getFullYear(), // 2022
-  month: now.getMonth() + 1, // 12
-  day: now.getDate(), // 19
-  hours: now.getHours() + 25, // 22
-  minutes: now.getMinutes(), // 34
-  seconds: now.getSeconds(), // 0
-  gap: 10,
-};
-
-const myCountDown = new CountDown(countDownParameters);
-myCountDown.x = width / 2;
-myCountDown.y = height / 2;
-
-////////////////////////////////////////////////
-///////////////// MultipleSpriteSheet //////////
-////////////////////////////////////////////////
-
-const MultipleSpriteSheetParameters = {
-  names: ["fenec68", "fenec183", "fenec208"],
-  debug: false,
-  regX: 0,
-  regY: 0,
-  framerate: 40,
-  // onAnimationEnd,
-};
-
-const myMultipleSpriteSheet = new MultipleSpriteSheet(
-  MultipleSpriteSheetParameters
-);
-myMultipleSpriteSheet.y = height / 2;
-myMultipleSpriteSheet.x = width / 2;
-
-// MultipleSpriteSheet controls
-
-// myMultipleSpriteSheet.play();
-myMultipleSpriteSheet.stop();
-// myMultipleSpriteSheet.doLoop = false;
-// myMultipleSpriteSheet.gotoAndPlay(120);
-// myMultipleSpriteSheet.gotoAndStop(120);
-// myMultipleSpriteSheet.reverse;
-
-////////////////////////////////////////////////
-///////////////// DragSpriteSheet //////////////
-////////////////////////////////////////////////
-
-// const onAnimationEnd = () => logError("animation EENENNENENNNNNND");
-// const onFrameReached = (frame) => logError(`FRAME ${frame} REACHED`);
-
-const myDragSpriteSheetParameters = {
-  names: ["fenec68", "fenec183", "fenec208"],
-  regX: 0.5,
-  regY: 0.5,
-  debug: true,
-  startFrame: 1,
-  loop: true,
-  isVertical: false,
-  isOneDirection: false,
-  // sensitivity: 30,
-  // onAnimationEnd,
-  // callbackFrames: [34, 120],
-  // onFrameReached,
-};
-
-const myDragSpriteSheet = new DragSpriteSheet(myDragSpriteSheetParameters);
-myDragSpriteSheet.x = width / 2;
-myDragSpriteSheet.y = height / 2;
-
-////////////////////////////////////////////////
-///////////////// Particles //////////////
-////////////////////////////////////////////////
-
-const myParticlesParams = {
-  width: width * 0.7,
-  height: height * 0.7,
-  debug: true,
-  masked: true,
-  preset: "rain",
-  nb: 60,
-};
-
-const myParticles = new Particles(myParticlesParams);
-myParticles.regX = myParticles.width / 2;
-myParticles.regY = myParticles.height / 2;
-myParticles.x = width / 2;
-myParticles.y = height / 2;
-
-////////////////////////////////////////////////
-///////////////// MotionShaper //////////////
-////////////////////////////////////////////////
-
-// const onCenteredObjectExample = (object) => {
-//   console.log("onCenteredObject object: ", object);
-// };
-
-const so00 = new c.Bitmap(ad.assets.images["0"]);
-const so10 = new c.Bitmap(ad.assets.images["1"]);
-const so20 = new c.Bitmap(ad.assets.images["2"]);
-so00.y = so10.y = so20.y = height - so20.image.height;
-sc.addChild(so00, so10, so20);
-
-const mss = new MultipleSpriteSheet({
-  names: ["fenec68", "fenec183", "fenec208"],
-  framerate: 40,
-  debug: true,
-});
-
-const MotionShaperParams = {
-  width: 546,
-  height: 444,
-  regX: 546 / 2,
-  regY: 444,
-  // duration: 550,
-  durationIn: 300,
-  durationOut: 130,
-  waitIn: 120,
-  sensitivity: 3,
-  debug: true,
-  animationIn: c.Ease.quadIn,
-  animationOut: c.Ease.linear,
-  // isVertical: true,
-  // isCyclic: false,
-  startIndex: 1,
-  // onCenteredObject,
-  items: [
-    {
-      // item: new c.Bitmap(ad.assets.images["nike_1"]),
-      item: new c.Bitmap(images.nike_1),
-      regX: 546 / 2,
-      regY: 130,
-      alpha: [0.1, 1, 0.1],
-      x: [-111, 546 / 2, 555],
-      y: [0, 140, 0],
-      scale: [0.4, 1, 0.4],
-      rotation: [-360, 0, 360],
-    },
-    {
-      item: mss,
-      regX: mss.width / 2,
-      regY: mss.height / 2,
-      x: [-mss.width / 2, 546 / 2, 546 + mss.width / 2],
-      y: 444 / 2,
-      rotation: 0,
-      scale: 1,
-    },
-    { item: "nike_3" },
-  ],
-  urls: [
-    "https://www.google.com/search?q=0",
-    "https://www.google.com/search?q=1",
-    "https://www.google.com/search?q=2",
-  ],
-  secondaryObjects: [
-    {
-      duration: 300,
-      waitIn: 120,
-      waitOut: 120,
-      animationIn: c.Ease.bounceOut,
-      animationOut: c.Ease.quadOut,
-      items: [
-        {
-          item: so00,
-          alpha: [0, 1, 0],
-          x: [0, width / 2, width],
-        },
-        {
-          item: so10,
-          scale: [1, 2, 1],
-          y: height - 2 * so10.image.height,
-        },
-        { item: so20 },
-      ],
-      urls: [
-        "https://www.google.com/search?q=secondary+object+0",
-        "https://www.google.com/search?q=secondary+object+1",
-        "https://www.google.com/search?q=secondary+object+2",
-      ],
-    },
-    {
-      duration: 300,
-      animationOut: c.Ease.quadOut,
-      items: [
-        {
-          item: "wording01",
-          alpha: [0, 1, 0],
-          x: 0,
-          scale: 0.5,
-        },
-        { item: "wording02" },
-        { item: "wording03" },
-      ],
-    },
-  ],
-};
-
-const myMotionShaper = new MotionShaper(MotionShaperParams);
-myMotionShaper.x = width / 2;
-myMotionShaper.y = height / 2;
-
-////////////////////////////////////////////////
 ///////////////// ADD TO STAGE  ////////////////
 ////////////////////////////////////////////////
 
 sc.addChild(
-  bg,
-
-  // add myVideo :
-  myVideo
-
-  // add myCarousel :
+  background,
   // myCarousel,
-  // wordingObjCont
-
-  // add myCountDown :
-  // myCountDown
-
-  // add myMultipleSpriteSheet :
-  // myMultipleSpriteSheet
-
-  // add myDragSpriteSheet :
-  // myDragSpriteSheet
-
-  // add myParticles :
-  // myParticles
-
-  // add myParticles :
-  // myParticles
-
-  // add myMotionShaper :
-  // myMotionShaper
+  women,
+  // man,
+  // phone,
+  p1Wording,
+  // p2Wording,
+  p3Wording,
+  // ctaSmall,
+  cta,
+  logo
 );
+
+// CTA BOUNCE
+function ctaSmallBounce() {
+  const scale1 = 1;
+  const scale2 = scale1 + 0.1;
+  const scale3 = scale1 - 0.1;
+  const scale4 = scale1 + 0.05;
+  const scale5 = scale1 - 0.05;
+
+  c.Tween.get(cta, { loop: true })
+    .wait(1000)
+    .to({ scaleX: scale1, scaleY: scale1 }, 500, c.Ease.quadOut)
+    .to({ scaleX: scale2, scaleY: scale2 }, 250, c.Ease.quadOut)
+    .to({ scaleX: scale3, scaleY: scale3 }, 150, c.Ease.quadOut)
+    .to({ scaleX: scale4, scaleY: scale4 }, 150, c.Ease.quadOut)
+    .to({ scaleX: scale5, scaleY: scale5 }, 100, c.Ease.quadOut)
+    .to({ scaleX: scale1, scaleY: scale1 }, 75, c.Ease.quadOut)
+    .wait(1000);
+}
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
