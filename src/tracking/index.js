@@ -1,12 +1,12 @@
 // Time tracking
 const timeoutIds = [5, 10, 15].map((time) =>
   setTimeout(() => {
-    ad.track('time' + time);
+    ad.track("time" + time);
   }, time * 1000)
 );
 
 // We clear all timeouts set
-ad.on('cleanup', function () {
+ad.on("cleanup", function () {
   timeoutIds.forEach(clearTimeout);
 });
 
@@ -17,10 +17,10 @@ ad.on('cleanup', function () {
  */
 const setupFirstInteractionTracking = function (container) {
   if (!container) {
-    throw new Error('A container needs to be passed');
+    throw new Error("A container needs to be passed");
   }
 
-  container.on('mousedown', () => ad.track('first_interaction'), null, true);
+  container.on("mousedown", () => ad.track("first_interaction"), null, true);
 };
 
 module.exports = {

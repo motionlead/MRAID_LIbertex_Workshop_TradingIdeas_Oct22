@@ -3,34 +3,34 @@
  * This function returns one of 'iOS', 'Android', 'Windows Phone', or 'unknown'.
  * returns a string
  **/
-export const getMobileOperatingSystem = () => {
+const getMobileOperatingSystem = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
   // Windows Phone must come first because its UA also contains "Android"
   if (/windows phone/i.test(userAgent)) {
     //console.log("windows");
-    return 'Windows';
+    return "Windows";
   }
 
   if (/android/i.test(userAgent)) {
     //console.log("android");
-    return 'Android';
+    return "Android";
   }
 
   // iOS detection from: http://stackoverflow.com/a/9039885/177710
   if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
     //console.log("iphone ");
-    return 'iOS';
+    return "iOS";
   }
 
-  return 'unknown';
+  return "unknown";
 };
 
-export const getMobileLanguage = () => {
+const getMobileLanguage = () => {
   const lang = navigator.language || navigator.userLanguage;
-  console.log('lang: ', lang);
-  const suffixes = ['fr', 'de', 'ja', 'es'];
-  let suffix = 'en';
+  console.log("lang: ", lang);
+  const suffixes = ["fr", "de", "es", "it", "en"];
+  let suffix = "en";
   for (let i = 0; i < suffixes.length; i++) {
     if (lang.startsWith(suffixes[i])) {
       suffix = suffixes[i];
@@ -40,15 +40,15 @@ export const getMobileLanguage = () => {
   return suffix;
 };
 
-export const isGyroscopeAvailable = () => {
+const isGyroscopeAvailable = () => {
   return (
-    getMobileOperatingSystem() === 'Android' && window.DeviceOrientationEvent
+    getMobileOperatingSystem() === "Android" && window.DeviceOrientationEvent
   );
 };
 
 // this function transforms a number to an array of figures
 // example: 457 => [4, 5, 7]
-export const numberToArray = (value) => {
+const numberToArray = (value) => {
   if (value === 0) {
     return [0];
   }
@@ -66,38 +66,38 @@ export const numberToArray = (value) => {
   return digits;
 };
 
-export const keepSafe = (idx, nb) => ((idx % nb) + nb) % nb;
+const keepSafe = (idx, nb) => ((idx % nb) + nb) % nb;
 
-export const map = (value, start1, stop1, start2, stop2) =>
+const map = (value, start1, stop1, start2, stop2) =>
   start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1));
 
-export const logError = (error) =>
-  console.log(`%c ${error} `, 'background: brown; color: yellow');
+const logError = (error) =>
+  console.log(`%c ${error} `, "background: brown; color: yellow");
 
-export const stringifyObject = (obj = {}) => {
-  let params = '{\n';
+const stringifyObject = (obj = {}) => {
+  let params = "{\n";
   Object.keys(obj).forEach((key) => {
     params += `   ${key}: ${obj[key]},\n`;
   });
-  params += '}';
+  params += "}";
   return params;
 };
 
-export const isChrome = () => {
+const isChrome = () => {
   const isChromium = window.chrome;
   const winNav = window.navigator;
   const vendorName = winNav.vendor;
-  const isOpera = typeof window.opr !== 'undefined';
-  const isIEedge = winNav.userAgent.indexOf('Edge') > -1;
-  const isIOSChrome = winNav.userAgent.match('CriOS');
+  const isOpera = typeof window.opr !== "undefined";
+  const isIEedge = winNav.userAgent.indexOf("Edge") > -1;
+  const isIOSChrome = winNav.userAgent.match("CriOS");
 
   if (isIOSChrome) {
     // is Google Chrome on IOS
     return true;
   } else if (
     isChromium !== null &&
-    typeof isChromium !== 'undefined' &&
-    vendorName === 'Google Inc.' &&
+    typeof isChromium !== "undefined" &&
+    vendorName === "Google Inc." &&
     isOpera === false &&
     isIEedge === false
   ) {
@@ -107,4 +107,16 @@ export const isChrome = () => {
     // not Google Chrome
     return false;
   }
+};
+
+module.exports = {
+  getMobileOperatingSystem,
+  isGyroscopeAvailable,
+  getMobileLanguage,
+  stringifyObject,
+  numberToArray,
+  logError,
+  isChrome,
+  keepSafe,
+  map,
 };

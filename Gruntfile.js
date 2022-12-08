@@ -44,14 +44,6 @@ module.exports = function (grunt) {
             src: 'assets/images/*',
             dest: 'build/tmp/images/',
           },
-          {
-            src: 'assets/images/demo/*',
-            dest: 'build/tmp/images/',
-          },
-          {
-            src: 'assets/images/common/*',
-            dest: 'build/tmp/images/',
-          },
         ],
       },
     },
@@ -138,7 +130,7 @@ module.exports = function (grunt) {
       },
     },
 
-    // Copy the libs and favicon to the build directory
+    // Copy the libs (essentially motionlead) to the build directory
     copy: {
       main: {
         files: [
@@ -147,12 +139,6 @@ module.exports = function (grunt) {
             flatten: true,
             src: ['scripts/libs/*'],
             dest: 'build/tmp/libs/',
-          },
-          {
-            expand: true,
-            flatten: true,
-            src: ['scripts/images/*'],
-            dest: 'build/tmp/images/',
           },
         ],
       },
